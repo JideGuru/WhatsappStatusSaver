@@ -21,7 +21,6 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var layoutManager: GridLayoutManager
     private val PermissionsRequestCode = 123
     private lateinit var managePermissions: ManagePermissions

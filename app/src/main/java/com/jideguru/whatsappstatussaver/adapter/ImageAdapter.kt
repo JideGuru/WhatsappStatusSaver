@@ -9,12 +9,11 @@ import kotlinx.android.synthetic.main.img_item.view.*
 import java.io.File
 import android.graphics.BitmapFactory
 import android.provider.MediaStore
-import android.R.attr.path
-import android.graphics.Color
 import android.media.ThumbnailUtils
 import android.os.Environment
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import android.media.MediaScannerConnection
 
 
 class ImageAdapter(val items : Array<File>, val context: Context) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
@@ -48,8 +47,17 @@ class ImageAdapter(val items : Array<File>, val context: Context) : RecyclerView
             builder.setMessage("Save this Status update?")
 
             builder.setPositiveButton("Save"){dialog, which ->
-                val StatusDirectory = "${Environment.getExternalStorageDirectory()}/WAStatus/${items[position].name}"
-                File(items[position].absolutePath).copyTo(File(StatusDirectory))
+                val statusDirectory = "${Environment.getExternalStorageDirectory()}/WAStatus/${items[position].name}"
+                File(items[position].absolutePath).copyTo(File(statusDirectory))
+
+                Toast.makeText(context, "Saved to Gallery!!!", Toast.LENGTH_SHORT).show()
+                MediaScannerConnection.scanFile(
+                    context,
+                    arrayOf(statusDirectory),
+                    null
+                ) { path, uri ->
+                    Toast.makeText(context, "Saved to Gallery!!!", Toast.LENGTH_SHORT).show()
+                }
 
             }
 
@@ -76,6 +84,7 @@ class ImageAdapter(val items : Array<File>, val context: Context) : RecyclerView
 
 
     }
+
 
     override fun getItemCount(): Int {
         return items.size
