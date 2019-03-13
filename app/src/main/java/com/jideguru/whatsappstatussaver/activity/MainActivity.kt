@@ -1,5 +1,7 @@
 package com.jideguru.whatsappstatussaver.activity
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jideguru.whatsappstatussaver.R
 import com.jideguru.whatsappstatussaver.adapter.ImageAdapter
+import com.jideguru.whatsappstatussaver.util.ManagePermissions
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
@@ -20,11 +23,31 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var layoutManager: GridLayoutManager
+    private val PermissionsRequestCode = 123
+    private lateinit var managePermissions: ManagePermissions
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val list = listOf<String>(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        managePermissions = ManagePermissions(this,list,PermissionsRequestCode)
+        managePermissions.checkPermissions()
+
+
+        val StatusDirectory = "${Environment.getExternalStorageDirectory()}/WAStatus"
+        try{
+            File(StatusDirectory).mkdirs()
+        }catch (e: Exception){
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
+
+            Toast.makeText(this, "Something Went wrong. Provide application with storage access", Toast.LENGTH_SHORT).show()
+        }
+
 
         val WAdirectory = "${Environment.getExternalStorageDirectory()}/WhatsApp"
         val WABdirectory = "${Environment.getExternalStorageDirectory()}/WhatsApp Business"
@@ -124,4 +147,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun Context.toast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                   grantResults: IntArray) {
+        when (requestCode) {
+            PermissionsRequestCode ->{
+                val isPermissionsGranted = managePermissions
+                    .processPermissionsResult(requestCode,permissions,grantResults)
+
+                if(isPermissionsGranted){
+                    // Do the task now
+                    toast("Permissions granted.")
+                }else{
+                    toast("Permissions denied.")
+                }
+                return
+            }
+        }
+    }
 }
