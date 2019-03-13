@@ -5,6 +5,7 @@
 
 
     <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -24,4 +25,15 @@
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
+    <View android:layout_width="1dp"
+          android:layout_height="190dp"
+          android:layout_toRightOf="@id/ll"
+          android:background="@color/colorAccent"
+          android:layout_marginLeft="5dp"/>
+
+    <View android:layout_width="170dp"
+          android:layout_height="1dp"
+          android:layout_below="@id/ll"
+          android:background="@color/colorAccent"
+          android:layout_marginTop="5dp"/>
 </RelativeLayout>
