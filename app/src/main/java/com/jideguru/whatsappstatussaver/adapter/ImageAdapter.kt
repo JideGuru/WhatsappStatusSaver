@@ -22,7 +22,7 @@ class ImageAdapter(val items : Array<File>, val context: Context) : RecyclerView
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.filePath?.text = items[position].name
-        Toast.makeText(context, items[position].extension, Toast.LENGTH_LONG).show()
+//        Toast.makeText(context, items[position].extension, Toast.LENGTH_LONG).show()
 
         if(items[position].extension == "mp4"){
             val thumb = ThumbnailUtils.createVideoThumbnail(
@@ -44,9 +44,12 @@ class ImageAdapter(val items : Array<File>, val context: Context) : RecyclerView
         return items.size
     }
 
-    class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
-        val filePath = view.txtView
-        val fileThumb = view.preview
+    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
+        val filePath = itemView.txtView
+        val fileThumb = itemView.preview
+
+
+
     }
 
 }

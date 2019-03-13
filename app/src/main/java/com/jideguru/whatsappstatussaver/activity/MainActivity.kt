@@ -1,10 +1,14 @@
 package com.jideguru.whatsappstatussaver.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jideguru.whatsappstatussaver.R
 import com.jideguru.whatsappstatussaver.adapter.ImageAdapter
@@ -62,4 +66,62 @@ class MainActivity : AppCompatActivity() {
 
         return files
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    // actions on click menu1 items
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_info -> {
+
+            // Initialize a new instance of
+            val builder = AlertDialog.Builder(this@MainActivity)
+
+            // Set the alert dialog title
+            builder.setTitle("Info")
+
+            // Display a message on alert dialog
+            builder.setMessage("Made By JideGuru with Kotlin")
+
+            // Set a positive button and its click listener on alert dialog
+//            builder.setPositiveButton("YES"){dialog, which ->
+//                // Do something when user press the positive button
+//                Toast.makeText(applicationContext,"Ok, we change the app background.",Toast.LENGTH_SHORT).show()
+//
+//                // Change the app background color
+//                root_layout.setBackgroundColor(Color.RED)
+//            }
+
+
+//            // Display a negative button on alert dialog
+//            builder.setNegativeButton("No"){dialog,which ->
+//                Toast.makeText(applicationContext,"You are not agree.",Toast.LENGTH_SHORT).show()
+//            }
+
+
+            // Display a neutral button on alert dialog
+            builder.setNeutralButton("OK"){_,_ ->
+//                Toast.makeText(applicationContext,"You cancelled the dialog.",Toast.LENGTH_SHORT).show()
+            }
+
+            // Finally, make the alert dialog using builder
+            val dialog: AlertDialog = builder.create()
+
+            // Display the alert dialog on app interface
+            dialog.show()
+            true
+        }
+        R.id.action_download -> {
+//            val intent = Intent(this, DownloadActivity::class.java)
+//            startActivity(intent)
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
 }
