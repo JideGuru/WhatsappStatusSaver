@@ -115,8 +115,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_download -> {
-//            val intent = Intent(this, DownloadActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, DownloadsActivity::class.java)
+            startActivity(intent)
             true
         }
         else -> {
